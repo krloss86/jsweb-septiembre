@@ -22,4 +22,15 @@ public class Libro extends Articulo {
 	public void setEditorial(String editorial) {
 		this.editorial = editorial;
 	}
+	
+	@Override
+	public String toString() {
+		
+		//usar lo que tiene el padre + lo propio
+		String toStrinPadre = super.toString();
+		
+		String miToString = ", editorial = " + this.editorial;
+		
+		return toStrinPadre + miToString;
+	}
 }

@@ -38,5 +38,15 @@ public class Pelicula extends Articulo {
 	public void setFechaPublicacion(Date fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
 	}
-	
+
+	@Override
+	public String toString() {
+		
+		//usar lo que tiene el padre + lo propio
+		String toStrinPadre = super.toString();
+		
+		String miToString = ", formato = " + this.formato + ", fechaPublicacion = " + this.fechaPublicacion;
+		
+		return toStrinPadre + miToString;
+	}
 }

@@ -21,7 +21,7 @@ public class MainHerencia {
 		
 		//magia de la herencia
 		for(Articulo articulo : articulos) {
-			//mostrarlos datos de un articulo, sin importar que categoria es
+			//mostrar los datos de un articulo, sin importar que categoria
 			System.err.println("Titulo:" + articulo.getTitulo());
 			System.err.println("Autor:" + articulo.getAutor());
 			System.err.println("Precio:" + articulo.getPrecio());

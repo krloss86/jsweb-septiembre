@@ -1,6 +1,6 @@
 package ar.com.educacionit.domain.herencia;
 
-public class Articulo {
+public class Articulo{
 
 	//para que los hijos lo hereden como private
 	protected String titulo;
@@ -53,4 +53,13 @@ public class Articulo {
 	
 	//alt+shift+s
 	
+	//METODO toString()
+	@Override
+	public String toString() {
+		String estado = "Titulo:" + this.getTitulo();
+		estado = estado + " Autor:" + this.getAutor();
+		estado = estado + " Precio:" + this.getPrecio();
+		estado = estado + " Categoria:" + this.getCategoria();
+		return estado;
+	}
 }

@@ -24,5 +24,15 @@ public class Pasatiempo extends Articulo {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-	
+
+	@Override
+	public String toString() {
+		
+		//usar lo que tiene el padre + lo propio
+		String toStrinPadre = super.toString();
+		
+		String miToString = ", marca = " + this.marca;
+		
+		return toStrinPadre + miToString;
+	}
 }

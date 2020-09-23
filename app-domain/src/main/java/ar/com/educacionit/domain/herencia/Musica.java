@@ -29,5 +29,14 @@ public class Musica extends Articulo {
 		this.selloDiscografico = selloDiscografico;
 	}
 	
-	
+	@Override
+	public String toString() {
+		
+		//usar lo que tiene el padre + lo propio
+		String toStrinPadre = super.toString();
+		
+		String miToString = ", selloDiscografico = " + this.selloDiscografico;
+		
+		return toStrinPadre + miToString;
+	}
 }
