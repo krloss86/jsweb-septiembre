@@ -44,7 +44,18 @@ public class BuscadorMain {
 			//ctrl+shift+i
 			System.out.println("Mostrando resultado del buscador " + buscador.getClass().getSimpleName());
 			
-			Articulo[] articulos = buscador.buscar();
+			//ejecuta la busqueda
+			buscador.buscar();
+			
+			//tipo de buscador?
+			//DOWN CASTING
+			if(buscador instanceof BuscadorLibro) {
+				
+				
+			}
+			
+			//obtiene lista
+			Articulo[] articulos = buscador.resultados;
 			
 			for(Articulo articulo : articulos) {
 				//invoco al metodo toString de cada articulo dentro del array/vector

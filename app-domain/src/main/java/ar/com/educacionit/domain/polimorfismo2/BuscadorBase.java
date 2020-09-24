@@ -11,11 +11,14 @@ public abstract class BuscadorBase {
 	//atributos
 	protected String claveBusqueda;
 	
+	//listado
+	protected Articulo[] resultados;
+	
 	public BuscadorBase(String clave) {
 		this.claveBusqueda = clave;
 	}
 	
-	public Articulo[] buscar() {
+	public void buscar() {
 		
 		String sqlPadre = "SELECT * FROM ";
 		
@@ -43,8 +46,13 @@ public abstract class BuscadorBase {
 		articulos[2] = pelicula;
 		articulos[3] = pasatiempo;
 		
-		return articulos;
+		this.resultados = articulos;
 	}
 	
 	protected abstract String getSQL();
+	
+	//get
+	public Articulo[] obtenerResultados() {
+		return this.resultados;
+	}
 }

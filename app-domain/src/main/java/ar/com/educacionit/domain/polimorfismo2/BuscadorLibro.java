@@ -1,5 +1,7 @@
 package ar.com.educacionit.domain.polimorfismo2;
 
+import ar.com.educacionit.domain.herencia.Articulo;
+
 public class BuscadorLibro extends BuscadorBase {
 
 	public BuscadorLibro(String clave) {
@@ -15,4 +17,20 @@ public class BuscadorLibro extends BuscadorBase {
 		return "LIBRO WHERE TITULO LIKE '%"+ super.claveBusqueda +"%'";
 	}
 
+	public Articulo obtenerLibroMayorPrecio() {
+		
+		Articulo precioMaximo = null;
+		
+		for(Articulo articulo : super.resultados) {
+			if(precioMaximo == null) {
+				precioMaximo = articulo;
+			}else {
+				if(articulo.getPrecio() > precioMaximo.getPrecio()) {
+					precioMaximo = articulo;
+				}
+			}
+		}
+		
+		return precioMaximo;
+	}
 }
