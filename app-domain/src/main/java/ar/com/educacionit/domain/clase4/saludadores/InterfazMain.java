@@ -1,4 +1,4 @@
-package ar.com.educacionit.domain.clase4;
+package ar.com.educacionit.domain.clase4.saludadores;
 
 import ar.com.educacionit.domain.polimorfismo2.BuscadorBase;
 

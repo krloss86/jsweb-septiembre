@@ -51,7 +51,17 @@ public class BuscadorMain {
 			//DOWN CASTING
 			if(buscador instanceof BuscadorLibro) {
 				
+				BuscadorLibro buscadorLibro = (BuscadorLibro)buscador;
+				Articulo mayorPrecio = buscadorLibro.obtenerLibroMayorPrecio();
+				System.out.println("Libro de mayor preccio: " + mayorPrecio.toString());
 				
+				//UP CASTING
+				BuscadorBase buscadorUp = (BuscadorBase)buscadorLibro;
+				
+				//ejemplo de uso de Object para contener "cualquier tipo de dato"
+				Object aux = 100;
+				aux = buscadorLibro;
+				aux = "";
 			}
 			
 			//obtiene lista
