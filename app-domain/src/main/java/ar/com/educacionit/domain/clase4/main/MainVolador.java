@@ -16,7 +16,7 @@ public class MainVolador {
 		for(Volador volador : voladores) {
 			
 			//¿cumple el contrato?
-			if(volador instanceof Aterrizable) {
+			//if(volador instanceof Aterrizable) {
 				
 				Resultado resultado = ((Aterrizable)volador).aterrizar();
 				
@@ -33,13 +33,13 @@ public class MainVolador {
 				}else {
 					System.out.println("Aterrisaje de " + volador.getNombre() + " Normal!");
 				}
-			}else {
+			/*}else {
 				if(volador instanceof Maquina) {
 					System.out.println("la maquina " + volador.getNombre() + " no puede aterrizar!");
 				}else {
 					System.out.println("el super heroe " + volador.getNombre() + " no puede aterrizar!");
 				}
-			}
+			}*/
 		}
 	}
 

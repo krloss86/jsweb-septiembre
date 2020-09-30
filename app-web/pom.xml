@@ -12,6 +12,16 @@
   <packaging>war</packaging>
   <dependencies>
     <!-- dependencias propias y de terceros -->
+<!--     <dependency> -->
+<!--     	<groupId>ar.com.educacionit</groupId> -->
+<!--     	<artifactId>app-domain</artifactId> -->
+<!--     	<version>1.0.0-SNAPSHOT</version> -->
+<!--     </dependency> -->
+    <dependency>
+    	<groupId>ar.com.educacionit</groupId>
+    	<artifactId>app-service</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>app-web</finalName>
