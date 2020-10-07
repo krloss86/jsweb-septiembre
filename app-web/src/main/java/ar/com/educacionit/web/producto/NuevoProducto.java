@@ -16,7 +16,8 @@ public class NuevoProducto {
 		int reintentos = 3;
 		while(!succes && reintentos > 0) {
 			try {
-				ProductoDAO.createProducto(nuevoProducto);
+				ProductoDAO pdao = new ProductoDAO();
+				pdao.createProducto(nuevoProducto);
 				succes = true;
 			} catch (DuplicatedException e) {
 				System.out.println("No se pudo crear el producto, ya existe la codigo: " + nuevoProducto.getCodigo());

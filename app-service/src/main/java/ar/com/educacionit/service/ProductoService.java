@@ -9,4 +9,12 @@ public interface ProductoService {
 	//aplicaciones
 	
 	public Producto obtenerProductoById(Long id) throws ServiceException;
+	
+	public void eliminarProducto(Long id) throws ServiceException;
+	
+	public Producto[] obtenerProductos() throws ServiceException;
+	
+	public Producto nuevoProducto(Producto producto) throws ServiceException;
+	
+	public Producto actualizarProducto(Producto producto) throws ServiceException;
 }

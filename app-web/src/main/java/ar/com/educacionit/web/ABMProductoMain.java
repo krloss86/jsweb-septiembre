@@ -16,23 +16,23 @@ public class ABMProductoMain {
 		
 		String titulo = "IRON MAN3";
 		
-		try {
+		//try {
 			
 			Producto producto = new Producto(1001L, titulo, precio, codigo);
 					
-			ProductoDAO.createProducto(producto);
+			//ProductoDAO.createProducto(producto);
 			
-			ProductoDAO.deleteProducto(producto.getId());
+			//ProductoDAO.deleteProducto(producto.getId());
 			
 			producto = new Producto(1001L, titulo, precio, "0002");
 			
-			ProductoDAO.createProducto(producto);
+			//ProductoDAO.createProducto(producto);
 			
-		} catch (DuplicatedException | GenericDAOException de) {
-			de.printStackTrace();
-		} catch (NonExistException nee) {
-			nee.printStackTrace();
-		}
+		//} catch (DuplicatedException | GenericDAOException de) {
+		//	de.printStackTrace();
+		//}/* catch (NonExistException nee) {
+		//	nee.printStackTrace();
+		//}*/
 	}
 
 }

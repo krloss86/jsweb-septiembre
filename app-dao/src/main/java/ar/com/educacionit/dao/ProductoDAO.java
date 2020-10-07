@@ -1,6 +1,7 @@
 package ar.com.educacionit.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -15,7 +16,7 @@ import ar.com.educacionit.jdbc.AdministradorConexiones;
 //ctrl+shift+o
 public class ProductoDAO {
 
-	public static Producto createProducto(Producto producto) throws DuplicatedException, GenericDAOException {
+	public Producto createProducto(Producto producto) throws DuplicatedException, GenericDAOException {
 
 		// ctrl+shift+o
 		// ctrl+space
@@ -53,27 +54,186 @@ public class ProductoDAO {
 		} catch (SQLException e) {
 			throw new GenericDAOException(e.getMessage(), e);
 		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new GenericDAOException("NO se pudo cerrar la conexion, verfique en la DB las conexiones", e);
-			}
+			cerrarConexion(connection);
 		}
 
 		return producto;
 	}
 
-	public static void deleteProducto(Long id) throws NonExistException {
+	public void deleteProducto(Long id) throws NonExistException, GenericDAOException, Exception {
 
+		String sql = "delete from productos where id = ?";
+		
+		Connection connection = null; 
+		
+		try {
+			
+			connection = AdministradorConexiones.obtenerConexion();
+			
+			connection.setAutoCommit(false);
+			
+			//prepared statement
+			PreparedStatement pst = connection.prepareStatement(sql);
+			
+			//seteo de los parametros que definimos con ?
+			pst.setLong(1, id);
+			
+			int res = pst.executeUpdate();
+			
+			if(res <= 0 ) {
+				throw new NonExistException("Producto inexistente id:" + id);
+			}
+			
+			connection.commit();
+			//commit
+		}catch (SQLException e) {
+			//rollback
+			connection.rollback();
+			throw new GenericDAOException("No se ha podido realizar el rollback de la transaccion",e);
+		}catch (Exception e) {
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			cerrarConexion(connection);
+		}
 	}
 
 	public Producto get(Long id) throws GenericDAOException {
+		
+		Connection connection = null;
+		
+		Producto producto = null;
+		
+		try {
+			
+			String sql = "SELECT * FROM PRODUCTOS WHERE ID =? ";
 
-		return null;
+			connection = AdministradorConexiones.obtenerConexion();
+			
+			PreparedStatement pst = connection.prepareStatement(sql);
+			
+			//seteo del los parametros
+			pst.setLong(1, id);
+			
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				producto = productoDesdeResultSet(rs);
+			}
+		} catch (Exception e) {
+			throw new GenericDAOException("No se pudo obtener el producto id:" + id);
+		} finally {
+			cerrarConexion(connection);
+		}
+		
+		return producto;
 	}
 
 	public Producto[] obtenerTodos() throws GenericDAOException {
 
-		return null;
+		Connection connection = null;
+		
+		Producto[] productos = null;
+		
+		try {
+			
+			connection = AdministradorConexiones.obtenerConexion();
+
+			//quiero usar la conexion!!!
+			String sql = "SELECT COUNT(*) as CANTIDAD FROM PRODUCTOS";
+		
+			PreparedStatement pst = connection.prepareStatement(sql);
+			
+			ResultSet rs = pst.executeQuery();
+		
+			Long cantidad = new Long(0);
+			
+			if(rs.next()) {
+				cantidad = rs.getLong(1);
+			}
+			
+			if(cantidad > 0 ) {
+				productos = new Producto[cantidad.intValue()];
+				
+				//select * from productos
+				sql = "SELECT * FROM PRODUCTOS";
+				
+				pst = connection.prepareStatement(sql);
+				
+				rs = pst.executeQuery();
+				
+				Producto producto;
+				
+				int i = 0;
+				while(rs.next()) {
+					
+					producto = productoDesdeResultSet(rs);
+					
+					productos[i++] = producto;
+				}
+			}
+		} catch (SQLException e) {
+			throw new GenericDAOException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GenericDAOException(e.getMessage(), e);
+		} finally {
+			cerrarConexion(connection);
+		}
+		
+		return productos;
+	}
+
+	private Producto productoDesdeResultSet(ResultSet rs) throws SQLException {
+		Producto producto;
+		Long idProucto = rs.getLong(1);
+		String titulo = rs.getString(2);
+		Float precio = rs.getFloat(3);
+		String codigo = rs.getString(4);
+		Long tipoProducto = rs.getLong(5);
+		
+		producto = new Producto(idProucto, titulo, precio, codigo, tipoProducto);
+		return producto;
+	}
+	
+	private void cerrarConexion(Connection connection) throws GenericDAOException {
+		try {
+			if(connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			throw new GenericDAOException("No se ha podido cerrar la conexion, verifique luego en la db", e); 
+		}
+	}
+
+	public Producto updateProducto(Producto producto) throws GenericDAOException, Exception {
+		
+		Connection connection = null;
+		
+		try {
+			
+			String sql = "UPDATE PRODUCTOS SET TITULO = ?, PRECIO = ? WHERE ID = ?";
+
+			connection = AdministradorConexiones.obtenerConexion();
+			connection.setAutoCommit(false);
+
+			PreparedStatement pst = connection.prepareStatement(sql);
+			
+			//seteo del los parametros
+			pst.setString(1, producto.getTitulo());
+			pst.setFloat(2, producto.getPrecio());
+			pst.setLong(3, producto.getId());
+			
+			pst.execute();
+			
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw new GenericDAOException("No se pudo actualizat el producto id:" + producto.getId());
+		} finally {
+			cerrarConexion(connection);
+		}
+		
+		return producto;
 	}
 }
