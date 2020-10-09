@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import ar.com.educacionit.dao.exeptions.DuplicatedException;
 import ar.com.educacionit.dao.exeptions.GenericDAOException;
@@ -130,48 +132,28 @@ public class ProductoDAO {
 		return producto;
 	}
 
-	public Producto[] obtenerTodos() throws GenericDAOException {
+	public Collection<Producto> obtenerTodos() throws GenericDAOException {
 
 		Connection connection = null;
 		
-		Producto[] productos = null;
+		Collection<Producto> productos = new ArrayList<>();
 		
 		try {
 			
 			connection = AdministradorConexiones.obtenerConexion();
 
 			//quiero usar la conexion!!!
-			String sql = "SELECT COUNT(*) as CANTIDAD FROM PRODUCTOS";
+			String sql = "SELECT * FROM PRODUCTOS";
 		
 			PreparedStatement pst = connection.prepareStatement(sql);
 			
 			ResultSet rs = pst.executeQuery();
 		
-			Long cantidad = new Long(0);
-			
-			if(rs.next()) {
-				cantidad = rs.getLong(1);
-			}
-			
-			if(cantidad > 0 ) {
-				productos = new Producto[cantidad.intValue()];
+			while(rs.next()) {
 				
-				//select * from productos
-				sql = "SELECT * FROM PRODUCTOS";
+				Producto producto = productoDesdeResultSet(rs);
 				
-				pst = connection.prepareStatement(sql);
-				
-				rs = pst.executeQuery();
-				
-				Producto producto;
-				
-				int i = 0;
-				while(rs.next()) {
-					
-					producto = productoDesdeResultSet(rs);
-					
-					productos[i++] = producto;
-				}
+				productos.add(producto);
 			}
 		} catch (SQLException e) {
 			throw new GenericDAOException(e.getMessage(), e);

@@ -1,5 +1,7 @@
 package ar.com.educacionit.web.producto;
 
+import java.util.Collection;
+
 import ar.com.educacionit.domain.Producto;
 import ar.com.educacionit.service.ProductoService;
 import ar.com.educacionit.service.exeptions.ServiceException;
@@ -11,16 +13,20 @@ public class ObtenerProductos {
 	
 		ProductoService productoService = new ProductoServiceImpl();
 		
-		Producto[] productos = productoService.obtenerProductos();
+		Collection<Producto> productos = productoService.obtenerProductos();
 
-		if(productos != null) {
-			//foreach
+		//un 10%
+		if(!productos.isEmpty()) {
 			for(Producto producto : productos) {
-				System.out.println("Producto encontrado: " + producto);
-				System.err.println("-------");
+				Float precio = producto.getPrecio();
+				precio = precio *= 1.1f;
+				producto.setPrecio(precio);
 			}
-		}else {
-			System.out.println("No se han encontrado productos");
+		}
+		
+		//update masivo
+		for(Producto producto : productos) {
+			productoService.actualizarProducto(producto);
 		}
 	}
 

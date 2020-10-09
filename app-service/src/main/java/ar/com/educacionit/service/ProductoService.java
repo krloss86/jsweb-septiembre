@@ -1,5 +1,7 @@
 package ar.com.educacionit.service;
 
+import java.util.Collection;
+
 import ar.com.educacionit.domain.Producto;
 import ar.com.educacionit.service.exeptions.ServiceException;
 //ctrl+shift+o
@@ -12,7 +14,7 @@ public interface ProductoService {
 	
 	public void eliminarProducto(Long id) throws ServiceException;
 	
-	public Producto[] obtenerProductos() throws ServiceException;
+	public Collection<Producto> obtenerProductos() throws ServiceException;
 	
 	public Producto nuevoProducto(Producto producto) throws ServiceException;
 	

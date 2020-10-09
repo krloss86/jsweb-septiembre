@@ -1,5 +1,7 @@
 package ar.com.educacionit.service.impl;
 
+import java.util.Collection;
+
 import ar.com.educacionit.dao.ProductoDAO;
 import ar.com.educacionit.dao.exeptions.DuplicatedException;
 import ar.com.educacionit.dao.exeptions.GenericDAOException;
@@ -58,7 +60,7 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public Producto[] obtenerProductos() throws ServiceException {
+	public Collection<Producto> obtenerProductos() throws ServiceException {
 		try {
 			return this.productoDao.obtenerTodos();
 		} catch (GenericDAOException e) {
