@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>PersonaServlet</servlet-name>
+  	<display-name>PersonaServlet</display-name>
+  	<description>ejercicio 1 de la guia : clase10</description>
+  	<servlet-class>ar.com.educacionit.web.servlet.PersonaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PersonaServlet</servlet-name>
+  	<url-pattern>/PersonaServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
