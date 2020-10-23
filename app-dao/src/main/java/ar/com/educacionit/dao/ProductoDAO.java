@@ -218,4 +218,42 @@ public class ProductoDAO {
 		
 		return producto;
 	}
+
+	public Collection<Producto> buscarProducto(String claveBuscadaPorElUsuario) throws GenericDAOException {
+		
+		Connection connection = null;
+		
+		Collection<Producto> productos = new ArrayList<>();
+		
+		try {
+			
+			connection = AdministradorConexiones.obtenerConexion();
+
+			//quiero usar la conexion!!!
+			String sql = "SELECT * FROM PRODUCTOS where titulo like '%"+claveBuscadaPorElUsuario+"%'";
+		
+			PreparedStatement pst = connection.prepareStatement(sql);
+			
+			//setear el dato 
+			
+			// pst.setString(1, claveBuscadaPorElUsuario);
+			
+			ResultSet rs = pst.executeQuery();
+		
+			while(rs.next()) {
+				
+				Producto producto = productoDesdeResultSet(rs);
+				
+				productos.add(producto);
+			}
+		} catch (SQLException e) {
+			throw new GenericDAOException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new GenericDAOException(e.getMessage(), e);
+		} finally {
+			cerrarConexion(connection);
+		}
+		
+		return productos;
+	}
 }

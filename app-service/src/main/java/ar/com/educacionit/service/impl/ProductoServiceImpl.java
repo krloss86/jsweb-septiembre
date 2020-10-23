@@ -81,4 +81,14 @@ public class ProductoServiceImpl implements ProductoService {
 			throw new ServiceException("Error interno, no se ha podido crear el producto, por favor reintente", e);
 		}
 	}
+	
+	//ctrl+space
+	@Override
+	public Collection<Producto> buscarProducto(String claveBuscadaPorElUsuario) throws ServiceException {
+		try {
+			return this.productoDao.buscarProducto(claveBuscadaPorElUsuario);
+		} catch (GenericDAOException e) {
+			throw new ServiceException("Error interno, no se ha podido obtener el listado de productos, por favor reintente", e);
+		}
+	}
 }

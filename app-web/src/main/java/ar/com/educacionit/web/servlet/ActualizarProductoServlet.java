@@ -16,14 +16,15 @@ import ar.com.educacionit.service.ProductoService;
 import ar.com.educacionit.service.exeptions.ServiceException;
 import ar.com.educacionit.service.impl.ProductoServiceImpl;
 
-@WebServlet("/NuevoProductoServlet")
-public class NuevoProductoServlet extends HttpServlet {
+@WebServlet("/ActualizarProductoServlet")
+public class ActualizarProductoServlet extends HttpServlet {
 
 	private ProductoService productoService = new ProductoServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String id = request.getParameter("id");
 		String titulo = request.getParameter("titulo");
 		String codigo = request.getParameter("codigo");
 		String precio = request.getParameter("precio");
@@ -32,13 +33,13 @@ public class NuevoProductoServlet extends HttpServlet {
 		Float precioF = Float.parseFloat(precio);
 		Long tipoProductoL = Long.parseLong(tipoProducto);
 		
-		Producto producto = new Producto(titulo,precioF,codigo,tipoProductoL);
+		Producto producto = new Producto(Long.parseLong(id), titulo,precioF,codigo,tipoProductoL);
 		
 		String target;
 		
 		try {
 			
-			producto = productoService.nuevoProducto(producto);
+			producto = productoService.actualizarProducto(producto);
 			
 			Collection<Producto> listado = productoService.obtenerProductos();
 			
@@ -47,13 +48,19 @@ public class NuevoProductoServlet extends HttpServlet {
 			request.setAttribute("listado", listado);
 			
 			target = "/jsp/listado.jsp";
+			
+			request.setAttribute("exito", "Se ha actualizado el producto exitosamente");
 		} catch (ServiceException e) {
 			
 			request.setAttribute("listado", new ArrayList<>());
 			
 			request.setAttribute("error", e.getMessage());
 			
-			target = "/jsp/nuevo.jsp";
+			target = "/jsp/editar.jsp";
+			
+			request.setAttribute("error", e.getMessage());
+			
+			request.setAttribute("producto", producto);
 		}
 		
 		//redireccion!
