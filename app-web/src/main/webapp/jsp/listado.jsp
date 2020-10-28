@@ -47,34 +47,36 @@
 				</div>
 			<% }%>
 			<div class="row">
-				<table class="table">
-					  <thead>
-					    <tr>
-					      <th scope="col">ID</th>
-					      <th scope="col">CODIGO</th>
-					      <th scope="col">TITULO</th>
-					      <th scope="col">PRECIO</th>
-					      <th scope="col">TIPO</th>
-					      <th scope="col">&nbsp;</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					   
-					   	<% for(Producto producto: listado) { %>
-							<tr>
-								<th scope="row"><%=producto.getId() %></th>
-								<td><%=producto.getCodigo() %></td>
-								<td><%=producto.getTitulo() %></td>
-								<td><%=producto.getPrecio() %></td>
-								<td><%=producto.getTipoProducto() %></td>
-								<td>
-									<a href="<%=request.getContextPath() %>/CargarParaEditarProductoServlet?id=<%=producto.getId() %>" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Editar</a>
-									<button onclick="editarProducto(<%=producto.getId()%>)" type="button" class="btn btn-danger">Eliminar</button>
-								</td>	
-							</tr>
-						<% } %>
-					  </tbody>
-				</table>
+				<div class="col-12">
+					<table class="table">
+						  <thead>
+						    <tr>
+						      <th scope="col">ID</th>
+						      <th scope="col">CODIGO</th>
+						      <th scope="col">TITULO</th>
+						      <th scope="col">PRECIO</th>
+						      <th scope="col">TIPO</th>
+						      <th scope="col">&nbsp;</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						   
+						   	<% for(Producto producto: listado) { %>
+								<tr>
+									<th scope="row"><%=producto.getId() %></th>
+									<td><%=producto.getCodigo() %></td>
+									<td><%=producto.getTitulo() %></td>
+									<td><%=producto.getPrecio() %></td>
+									<td><%=producto.getTipoProducto() %></td>
+									<td>
+										<a href="<%=request.getContextPath() %>/CargarParaEditarProductoServlet?id=<%=producto.getId() %>" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Editar</a>
+										<button onclick="editarProducto(<%=producto.getId()%>)" type="button" class="btn btn-danger">Eliminar</button>
+									</td>	
+								</tr>
+							<% } %>
+						  </tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</body>

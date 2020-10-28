@@ -23,6 +23,9 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="<%=request.getContextPath()%>/parseArchivoServlet">Cargar Archivo</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="<%=request.getContextPath()%>/jsp/nuevo.jsp">Nuevo</a>
       </li>
       <li class="nav-item dropdown">
