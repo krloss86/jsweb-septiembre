@@ -10,7 +10,7 @@ import java.util.List;
 
 import ar.com.educacionit.domain.Producto;
 
-public class CSVFileParser extends FileParser implements Parseable, Convertible {
+public class CSVFileParser extends FileParser implements Parseable, Convertible<List<String>> {
 
 	public CSVFileParser() {
 		super(null, ";");
@@ -82,4 +82,5 @@ public class CSVFileParser extends FileParser implements Parseable, Convertible 
 		
 		return lineas;		
 	}
+
 }

@@ -35,6 +35,12 @@ public class BuscarProductoServlet extends HttpServlet {
 			
 			request.setAttribute("listado", listado);
 			
+			Float total = listado.stream()
+			.map(p -> p.getPrecio())
+			.reduce(0f, Float::sum);
+			
+			request.setAttribute("total", total);
+			
 		}catch (Exception e) {
 			
 			request.setAttribute("listado", new ArrayList<>());

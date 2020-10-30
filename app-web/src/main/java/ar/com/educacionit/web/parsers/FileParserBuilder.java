@@ -5,14 +5,14 @@ import java.util.Map;
 
 public class FileParserBuilder {
 	
-	private static Map<String, Parseable> mapParser;
+	private static Map<FormatoSalidaEnum, Object> mapParser;
 	
 	//bloque estático
 	static {
-		mapParser = new HashMap<String, Parseable>();
-		mapParser.put("csv", new CSVFileParser());
+		mapParser = new HashMap<FormatoSalidaEnum, Object>();
+		mapParser.put(FormatoSalidaEnum.CSV, new CSVFileParser());
 		//los demas parser!!!
-		//mapParser.put("xls", new XLSFileParser());
+		mapParser.put(FormatoSalidaEnum.XLS, new XLSFileParser());
 		//mapParser.put("odt", new ODTFileParser());
 		////mapParser.put("docx", new DOCXFileParser());
 	}
@@ -22,21 +22,33 @@ public class FileParserBuilder {
 		int idx = fileName.lastIndexOf(".");
 		String ext = fileName.substring(idx+1, fileName.length());
 		
-		Parseable parseable = mapParser.get(ext);
+		//obtener el enum dado la ext
+		FormatoSalidaEnum formatoEnum = FormatoSalidaEnum.getEnumByExtension(ext); 
+				
+		Object parseable = mapParser.get(formatoEnum);
 		
-		FileParser fileParseDentroDelParseable = (FileParser)parseable;
-		fileParseDentroDelParseable.setFileName(fileName);
+		if(parseable instanceof Parseable) {
 		
-		return parseable;
+			FileParser fileParseDentroDelParseable = (FileParser)parseable;
+			fileParseDentroDelParseable.setFileName(fileName);
+			
+			return (Parseable)parseable;
+		}else {
+			throw new RuntimeException("La extension" + ext + " no tiene asociado un Parseable");
+		}
 	}
 	
-	public static Convertible getConverter(String formato) {
+	public static Convertible getConverter(FormatoSalidaEnum formatoEnum) {
 		
-		Parseable parseable = mapParser.get(formato);
-		FileParser fileParseDentroDelParseable = (FileParser)parseable;
+		Object convertible = mapParser.get(formatoEnum);
 		
-		Convertible convertible = (Convertible)fileParseDentroDelParseable; 
-		
-		return convertible;
+		if(convertible instanceof Convertible) {
+			
+			FileParser fileParseDentroDelParseable = (FileParser)convertible;
+			
+			return  (Convertible)fileParseDentroDelParseable; 
+		}else {
+			throw new RuntimeException("El formato" + formatoEnum.name() + " no tiene asociado un Convertible");
+		}
 	}
 }
